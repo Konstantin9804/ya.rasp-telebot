@@ -2,8 +2,8 @@ import logging
 
 from telebot import TeleBot, logger
 
+from config import token
 
-token = ""
 bot = TeleBot(token=token)
 
 logger.setLevel(logging.INFO)

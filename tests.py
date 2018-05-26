@@ -8,65 +8,67 @@ apikey = ""
 
 class YaRaspAPICase(unittest.TestCase):
     def test_search(self):
-        """Расписание рейсов между станциями"""
+        """Запрос на Расписание рейсов между станциями"""
         self.assertFalse(
             "error" in yarasp.call(
-                "search", apikey=apikey, _from="c146", to="c213", lang="ru_RU", date=datetime.today()
+                "search", params=dict(apikey=apikey, _from="c146", to="c213", lang="ru_RU", date=datetime.today())
             )
         )
         self.assertFalse(
             "error" in yarasp.call(
-                "search", apikey=apikey, _from="c146", to="c213", date=datetime.today() + timedelta(days=10), offset=15
+                "search", params=dict(apikey=apikey, _from="c146", to="c213",
+                                      date=datetime.today() + timedelta(days=10), offset=15)
             )
         )
 
     def test_schedule(self):
-        """Расписание рейсов по станции"""
+        """Запрос на Расписание рейсов по станции"""
         self.assertFalse(
             "error" in yarasp.call(
-                "schedule", apikey=apikey, station="s9600213", transport_types="suburban", direction="на Москву"
+                "schedule", params=dict(apikey=apikey, station="s9600213", transport_types="suburban",
+                                        direction="на Москву")
             )
         )
         self.assertFalse(
             "error" in yarasp.call(
-                "schedule", apikey=apikey, station="s9600213", transport_types="suburban", event="arrival"
+                "schedule", params=dict(apikey=apikey, station="s9600213", transport_types="suburban", event="arrival")
             )
         )
 
     def test_nearest_stations(self):
-        """Список ближайших станций"""
+        """Запрос на Список ближайших станций"""
         self.assertFalse(
             "error" in yarasp.call(
-                "nearest_stations", apikey=apikey, format="json", lat=50.440046, lng=40.4882367, distance=50,
-                lang="ru_RU"
+                "nearest_stations", params=dict(apikey=apikey, format="json", lat=50.440046, lng=40.4882367,
+                                                distance=50, lang="ru_RU")
             )
         )
         self.assertFalse(
             "error" in yarasp.call(
-                "nearest_stations", apikey=apikey, lat=59.887693, lng=30.268961, distance=20, offset=15,
-                transport_types="plane"
+                "nearest_stations", params=dict(apikey=apikey, lat=59.887693, lng=30.268961, distance=20, offset=15,
+                                                transport_types="plane")
             )
         )
 
     def test_nearest_settlement(self):
-        """Ближайший город"""
+        """Запрос на Ближайший город"""
         self.assertFalse(
             "error" in yarasp.call(
-                "nearest_settlement", apikey=apikey, format="json", lat=50.440046, lng=40.4882367, distance=50,
-                lang="ru_RU"
+                "nearest_settlement", params=dict(apikey=apikey, format="json", lat=50.440046, lng=40.4882367,
+                                                  distance=50, lang="ru_RU")
             )
         )
         self.assertFalse(
             "error" in yarasp.call(
-                "nearest_settlement", apikey=apikey, lat=59.887693, lng=30.268961, distance=20
+                "nearest_settlement", params=dict(apikey=apikey, lat=59.887693, lng=30.268961, distance=20)
             )
         )
 
     def test_copyright(self):
-        """Копирайт Яндекс.Расписаний"""
+        """Запрос на Копирайт Яндекс.Расписаний"""
         self.assertFalse(
             "error" in yarasp.call(
-                "copyright", apikey=apikey, format="json"
+                "copyright", params=dict(apikey=apikey, format="json")
             )
         )
 
