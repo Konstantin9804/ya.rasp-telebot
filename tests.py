@@ -3,9 +3,7 @@ import yarasp
 from datetime import datetime, timedelta
 
 
-apikey="08661824-50dc-4372-8588-37596f156bda"
-# print("error" in yarasp.call("nearest_settlement", apikey="08661824-50dc-4372-8588-37596f156bda", lat=59.887693, lng=30.268961))
-# print(yarasp.call("search", apikey=apikey, _from="c146", to="c213", lang="ru_RU", date="2015-09-02", format="json"))
+apikey = ""
 
 
 class YaRaspAPICase(unittest.TestCase):
