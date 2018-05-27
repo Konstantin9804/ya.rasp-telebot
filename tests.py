@@ -1,9 +1,8 @@
 import unittest
-import yarasp
 from datetime import datetime, timedelta
 
-
-apikey = ""
+from bot import yarasp, functions
+from config import apikey
 
 
 class YaRaspAPICase(unittest.TestCase):
@@ -70,6 +69,58 @@ class YaRaspAPICase(unittest.TestCase):
             "error" in yarasp.call(
                 "copyright", params=dict(apikey=apikey, format="json")
             )
+        )
+
+
+class RegsCase(unittest.TestCase):
+    def test_reg_search(self):
+        """Парсинг для поиска маршрутов"""
+        self.assertNotEqual(
+            None,
+            functions.is_search("Санкт-Петербург — Москва".lower())
+        )
+        self.assertNotEqual(
+            None,
+            functions.is_search("Санкт-Петербург — Москва Завтра".lower())
+        )
+        self.assertNotEqual(
+            None,
+            functions.is_search("Санкт-Петербург — Москва Самолет".lower())
+        )
+        self.assertNotEqual(
+            None,
+            functions.is_search("Санкт-Петербург — Москва Завтра Самолет".lower())
+        )
+        self.assertNotEqual(
+            None,
+            functions.is_search("Санкт-Петербург — Москва 2018-05-27".lower())
+        )
+        self.assertNotEqual(
+            None,
+            functions.is_search("Санкт-Петербург — Нижний Новгород 2018-06-01 Поезд".lower())
+        )
+
+    def test_reg_schedule(self):
+        """Парсинг для поиска расписания"""
+        self.assertNotEqual(
+            None,
+            functions.is_schedule("Пулково 2018-06-03".lower())
+        )
+        self.assertNotEqual(
+            None,
+            functions.is_schedule("Шереметьево электричка".lower())
+        )
+        self.assertNotEqual(
+            None,
+            functions.is_schedule("Балтийский вокзал прибытие".lower())
+        )
+        self.assertNotEqual(
+            None,
+            functions.is_schedule("Балтийский вокзал завтра отправление".lower())
+        )
+        self.assertNotEqual(
+            None,
+            functions.is_schedule("Шереметьево 2018-06-01 поезд отправление".lower())
         )
 
 
