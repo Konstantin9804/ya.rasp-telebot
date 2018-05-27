@@ -7,6 +7,15 @@ def start_message(message):
                      text="Начнем!")
 
 
+@bot.message_handler(content_types=["location"])
+def location_handler(message):
+    location = message.location
+    answer = f.create_answer("nearest_stations", (location.latitude, location.longitude))
+    f.send_long_message(bot=bot,
+                        chat_id=message.chat.id,
+                        text=answer)
+
+
 @bot.message_handler(func=lambda mess: f.is_search(mess.text.lower()),
                      content_types=["text"])
 def search_handler(message):
@@ -23,13 +32,6 @@ def schedule_handler(message):
     f.send_long_message(bot=bot,
                         chat_id=message.chat.id,
                         text=answer)
-
-
-@bot.message_handler(content_types=["location"])
-def location_handler(message):
-    location = message.location
-    bot.reply_to(message=message,
-                 text="Долгота: {0}\nШирота: {1}".format(location.longitude, location.latitude))
 
 
 @bot.message_handler(func=lambda mess: True, content_types=["text"])
