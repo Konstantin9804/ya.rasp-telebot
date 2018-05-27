@@ -31,7 +31,7 @@ emoji = {
 
 reg_event = "|".join(events.keys())
 reg_transport = "|".join(all_transport_types.keys())
-reg_city = "[а-я]+([- ](?!(сегодня|завтра|{transport}))[а-я]*)?".format(transport=reg_transport)
+reg_city = "[а-я]+([- ](?!(сегодня|завтра|{trans}|{event}))[а-я]*)?".format(trans=reg_transport, event=reg_event)
 reg_date = "2018-((0[1-9]|1[012])-(0[1-9]|[12]\d)|(0[13-9]|1[012])-30|(0[13578]|1[02])-31)|завтра|сегодня"
 
 
@@ -84,6 +84,16 @@ def get_date(text):
         return text
 
 
+def calc_time(seconds):
+    str_time = ""
+    hours = seconds // 3600
+    if hours:
+        str_time += "{0} час ".format(hours)
+    minutes = (seconds - hours * 3600) // 60
+    str_time += "{0} мин".format(minutes)
+    return str_time
+
+
 def create_answer(method, reg_groups):
     params = {"apikey": apikey}
     if method == "search":
@@ -121,7 +131,7 @@ def parse_ya_answer(method, ya_data):
                 segment["from"]["title"],
                 segment["arrival"],
                 segment["to"]["title"],
-                segment["duration"]
+                calc_time(segment["duration"])
             )
     elif method == "schedule":
         for schedule in ya_data["schedule"]:
